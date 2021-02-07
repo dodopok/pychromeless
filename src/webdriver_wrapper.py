@@ -47,12 +47,15 @@ class WebDriverWrapper:
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--homedir={}'.format(self._tmp_folder))
         chrome_options.add_argument('--disk-cache-dir={}'.format(self._tmp_folder + '/cache-dir'))
-        chrome_options.add_argument(
-            'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
 
         chrome_options.binary_location = os.getcwd() + "/bin/headless-chromium"
 
         self._driver = webdriver.Chrome(chrome_options=chrome_options)
+        self._driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
         if self.download_location:
             self.enable_download_in_headless_chrome()

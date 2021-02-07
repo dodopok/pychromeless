@@ -12,4 +12,5 @@ COPY bin ./bin
 COPY lib ./lib
 
 RUN mkdir -p $APP_DIR/lib
-RUN pip3 install -r requirements.txt -t /var/task/lib
+RUN pip3 install --upgrade pip
+RUN pip install -r requirements.txt -t /var/task/lib
